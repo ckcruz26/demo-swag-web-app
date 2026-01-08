@@ -6,6 +6,8 @@ export default class LoginPage extends BasePage {
   private password = '#password';
   private loginBtn = '#login-button';
   private errorMsg = '//*[@id="login_button_container"]/div/form/div[3]/h3'
+  private hamburgerMenu = '#react-burger-menu-btn'
+  private logoutMenu = '#logout_sidebar_link'
 
   async login(username: string, password: string) {
     await this.type(this.username, username);
@@ -28,4 +30,8 @@ export default class LoginPage extends BasePage {
     await this.notContainsLinkValue('inventory.html')
   }
 
+  async logoutUser() {
+    await this.click(this.hamburgerMenu)
+    await this.click(this.logoutMenu)
+  }
 }
