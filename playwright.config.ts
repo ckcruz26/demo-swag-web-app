@@ -34,7 +34,7 @@ export default defineConfig({
     launchOptions: {
       args: ["--start-maximized"],
       //  slowMo: 2000,
-      headless: false,
+      headless: true,
     },
     trace: "on-first-retry",
     video: "on",
