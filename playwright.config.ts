@@ -15,7 +15,7 @@ export default defineConfig({
   ],
 
   use: {
-    headless: true,
+    headless: false,
     viewport: { width: 1920, height: 1080 }, // ✅ works for all browsers
     trace: "on-first-retry",
     video: "on",
@@ -28,26 +28,26 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        launchOptions: {
-          args: ["--start-maximized"], // ✅ chromium only
-        },
+        // launchOptions: {
+        //   args: ["--start-maximized"], // ✅ chromium only
+        // },
       },
     },
 
-    {
-      name: "firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        // ❌ no launch args
-      },
-    },
+    // {
+    //   name: "firefox",
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //     // ❌ no launch args
+    //   },
+    // },
 
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-        // ❌ no launch args
-      },
-    },
+    // {
+    //   name: "webkit",
+    //   use: {
+    //     ...devices["Desktop Safari"],
+    //     // ❌ no launch args
+    //   },
+    // },
   ],
 });

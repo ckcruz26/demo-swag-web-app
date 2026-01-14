@@ -33,6 +33,33 @@ export default abstract class BasePage {
     await this.page.waitForLoadState("networkidle");
   }
 
+  async scrollPage(
+    direction: "up" | "down" | "left" | "right",
+    distance: number = 500
+  ) {
+    let deltaX = 0;
+    let deltaY = 0;
+
+    switch (direction) {
+      case "up":
+        deltaY = -distance;
+        break;
+      case "down":
+        deltaY = distance;
+        break;
+      case "left":
+        deltaX = -distance;
+        break;
+      case "right":
+        deltaX = distance;
+        break;
+      default:
+        throw new Error(`Invalid scroll direction: ${direction}`);
+    }
+
+    await this.page.mouse.wheel(deltaX, deltaY);
+  }
+
   /* =====================
      Element Actions
   ===================== */
@@ -60,7 +87,11 @@ export default abstract class BasePage {
     await expect(el).toBeVisible();
   }
 
-  async notToBeNull(value : string) {
+  async waitForSelectorVisible(selector: string) {
+    await this.page.waitForSelector(selector, { state: 'visible' });
+  }
+
+  async notToBeNull(value: string) {
     await expect(value).not.toBeNull();
   }
 
@@ -105,7 +136,7 @@ export default abstract class BasePage {
 
   async toContainsTextInElement(selector: string | Locator, text: string) {
     const el = this.resolveLocator(selector);
-    await expect(el).toContainText(text)
+    await expect(el).toContainText(text);
   }
 
   /* =====================
@@ -142,7 +173,7 @@ export default abstract class BasePage {
   }
 
   async selectDateRange(start: string, end: string) {
-    await this.click(`[data-date="${start}"]`)
-    await this.click(`[data-date="${end}"]`)
+    await this.click(`[data-date="${start}"]`);
+    await this.click(`[data-date="${end}"]`);
   }
 }
