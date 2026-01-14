@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1006","view products list","chromium","2026-01-14","passed","2026-01-14","Products Suite","products-test.spec.ts","",""
+"","1950","TC-03 Valid Credentials for Standard User","chromium","2026-01-14","passed","2026-01-14","Login Suite","login-test.spec.ts","",""
+"","1199","authenticate","chromium","2026-01-14","passed","2026-01-14","","auth-setup.spec.ts","",""
+"","990","TC-02 Locked Out Credentials","chromium","2026-01-14","passed","2026-01-14","Login Suite","login-test.spec.ts","",""
+"","995","TC-01 Invalid Credentials for Standard User","chromium","2026-01-14","passed","2026-01-14","Login Suite","login-test.spec.ts","",""
