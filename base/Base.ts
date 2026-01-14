@@ -105,7 +105,7 @@ export default abstract class BasePage {
 
   async toContainsTextInElement(selector: string | Locator, text: string) {
     const el = this.resolveLocator(selector);
-    await expect(el).toContainText(text);
+    await expect(el).toContainText(text)
   }
 
   /* =====================
