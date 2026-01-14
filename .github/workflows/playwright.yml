@@ -49,9 +49,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
           publish_branch: gh-pages
-          destination_dir: ${{ github.run_number }}  # each run gets its own folder
 
       - name: Add Allure report link to job summary
         if: always()
         run: |
-          echo "[📊 View Allure Report](https://ckcruz26.github.io/demo-swag-web-app/${{ github.run_number }}/)" >> $GITHUB_STEP_SUMMARY
+          echo "[📊 View Allure Report](https://ckcruz26.github.io/demo-swag-web-app/)" >> $GITHUB_STEP_SUMMARY
