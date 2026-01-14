@@ -56,27 +56,27 @@ export default defineConfig({
       },
     },
 
-    // {
-    //   name: "firefox",
-    //   use: {
-    //     ...devices["Desktop Firefox"],
-    //     viewport: null, // ✅ explicit size
-    //     isMobile: false,
-    //     hasTouch: false,
-    //     deviceScaleFactor: undefined, // full screen (start-maximized will apply)
-    //   },
-    // },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        viewport: null, // ✅ explicit size
+        isMobile: false,
+        hasTouch: false,
+        deviceScaleFactor: undefined, // full screen (start-maximized will apply)
+      },
+    },
 
-    // {
-    //   name: "webkit",
-    //   use: {
-    //     ...devices["Desktop Safari"],
-    //     viewport: null, // ✅ explicit size
-    //     isMobile: false,
-    //     hasTouch: false,
-    //     deviceScaleFactor: undefined, // full screen (start-maximized will apply)
-    //   },
-    // },
+    {
+      name: "webkit",
+      use: {
+        ...devices["Desktop Safari"],
+        viewport: null, // ✅ explicit size
+        isMobile: false,
+        hasTouch: false,
+        deviceScaleFactor: undefined, // full screen (start-maximized will apply)
+      },
+    },
 
     /* Test against mobile viewports. */
     // {
