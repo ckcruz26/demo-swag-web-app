@@ -103,6 +103,11 @@ export default abstract class BasePage {
     await expect(this.page).not.toHaveTitle(title);
   }
 
+  async toContainsTextInElement(selector: string | Locator, text: string) {
+    const el = this.resolveLocator(selector);
+    await expect(el).toContainText(text);
+  }
+
   /* =====================
      Accessibility
   ===================== */
