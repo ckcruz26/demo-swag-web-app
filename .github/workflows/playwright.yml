@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   pull_request:
 
+permissions:
+  contents: write   # 👈 crucial for deploying to GitHub Pages
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -41,7 +44,7 @@ jobs:
 
       - name: Deploy Allure report to GitHub Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v6
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
