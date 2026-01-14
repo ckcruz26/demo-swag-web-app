@@ -14,7 +14,7 @@ test.describe("Products Suite", () => {
     await productsPage.close();
   });
 
-  test.only('view products list' , async ({productsPage}) => {
+  test('view products list' , async ({productsPage}) => {
     await productsPage.listAllProducts()
   })
 });
