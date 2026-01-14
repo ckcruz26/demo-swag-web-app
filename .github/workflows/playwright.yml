@@ -6,7 +6,7 @@ on:
   pull_request:
 
 permissions:
-  contents: write   # needed for GitHub Pages
+  contents: write   # 👈 crucial for deploying to GitHub Pages
 
 jobs:
   test:
@@ -34,7 +34,6 @@ jobs:
         if: always()
         run: |
           npx allure generate allure-results --clean -o allure-report
-
       - name: Upload Allure report artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -49,8 +48,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
           publish_branch: gh-pages
-
-      - name: Add Allure report link to job summary
-        if: always()
-        run: |
-          echo "[📊 View Allure Report](https://ckcruz26.github.io/demo-swag-web-app/)" >> $GITHUB_STEP_SUMMARY
