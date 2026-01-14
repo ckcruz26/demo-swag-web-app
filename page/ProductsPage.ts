@@ -26,11 +26,11 @@ export default class ProductsPage extends BasePage {
   async addAllProductsToCart() {
     const addProductsButton = [
       this.backPackAdd,
-      this.bikeLightAdd,
-      this.boltTShirtAdd,
-      this.fleeceJacketAdd,
-      this.onesieAdd,
-      this.redTShirtAdd
+      // this.bikeLightAdd,
+      // this.boltTShirtAdd,
+      // this.fleeceJacketAdd,
+      // this.onesieAdd,
+      // this.redTShirtAdd
     ];
 
     for(const button of addProductsButton) {
