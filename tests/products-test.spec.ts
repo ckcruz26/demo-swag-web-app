@@ -14,9 +14,9 @@ test.describe("Products Suite", () => {
     await productsPage.close();
   });
 
-  // test('view products list' , async ({productsPage}) => {
-  //   await productsPage.listAllProducts()
-  // })
+  test('view products list' , async ({productsPage}) => {
+    await productsPage.filterProducts()
+  })
   test("remove all products to cart", async ({ productsPage }) => {
     await productsPage.removeProduct();
   });

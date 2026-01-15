@@ -73,10 +73,16 @@ export default abstract class BasePage {
   async getByText(text: string) {
     return this.page.getByText(text);
   }
+
   async type(selector: string | Locator, text: string) {
     const el = this.resolveLocator(selector);
     await expect(el).toBeVisible();
     await el.fill(text);
+  }
+
+  async toBeVisibleElement(selector: string | Locator) {
+    const el = this.resolveLocator(selector);
+    await expect(el).toBeVisible();
   }
 
   async getByLocator(selector: string) {
@@ -88,7 +94,7 @@ export default abstract class BasePage {
   }
 
   async waitForSelectorVisible(selector: string) {
-    await this.page.waitForSelector(selector, { state: 'visible' });
+    await this.page.waitForSelector(selector, { state: "visible" });
   }
 
   async notToBeNull(value: string) {
@@ -108,6 +114,18 @@ export default abstract class BasePage {
   async isElementDisabled(selector: string | Locator) {
     const el = this.resolveLocator(selector);
     await expect(el).toBeDisabled();
+  }
+
+  async toBeGreaterThanValue(count: number, expectedValue: number) {
+    await expect(count).toBeGreaterThan(expectedValue);
+  }
+  async toBeEqualValue(count: number, expectedValue: number) {
+    await expect(count).toEqual(expectedValue);
+  }
+
+  async toHaveCount(selector: string | Locator, count: number) {
+    const el = this.resolveLocator(selector);
+    await expect(el).toHaveCount(count);
   }
 
   async isElementEnabled(selector: string | Locator) {
@@ -134,9 +152,30 @@ export default abstract class BasePage {
     await expect(this.page).not.toHaveTitle(title);
   }
 
-  async toContainsTextInElement(selector: string | Locator, text: string) {
+  async toContainsTextInElement(
+    selector: string | Locator,
+    text: string | RegExp
+  ) {
     const el = this.resolveLocator(selector);
     await expect(el).toContainText(text);
+  }
+
+  async toHaveCountInElement(selector: string | Locator, count: number) {
+    const el = this.resolveLocator(selector);
+    await expect(el).toHaveCount(count);
+  }
+
+  async toHaveAttributeInElement(
+    selector: string | Locator,
+    attribute: string,
+    value: string | RegExp
+  ) {
+    const el = this.resolveLocator(selector);
+    await expect(el).toHaveAttribute(attribute, value);
+  }
+
+  async selectFromDropdown(dropdown: string, optionText: string) {
+    await this.page.selectOption(dropdown, { label: optionText });
   }
 
   /* =====================

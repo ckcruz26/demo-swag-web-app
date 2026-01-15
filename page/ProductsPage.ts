@@ -1,32 +1,64 @@
 import BasePage from "../base/Base";
 
 export default class ProductsPage extends BasePage {
-  private productDiv = 'xpath=//*[@id="inventory_container"]/div';
+  private productDivSub = '[data-test="inventory-item"]';
 
-  private backPackAdd= '#add-to-cart-sauce-labs-backpack'
-  private bikeLightAdd= '#add-to-cart-sauce-labs-bike-light'
-  private boltTShirtAdd= '#add-to-cart-sauce-labs-bolt-t-shirt'
-  private fleeceJacketAdd= '#add-to-cart-sauce-labs-fleece-jacket'
-  private onesieAdd= '#add-to-cart-sauce-labs-onesie'
-  private redTShirtAdd= '[id="add-to-cart-test.allthethings()-t-shirt-(red)"]';
+  private backPackAdd = "#add-to-cart-sauce-labs-backpack";
+  private bikeLightAdd = "#add-to-cart-sauce-labs-bike-light";
+  private boltTShirtAdd = "#add-to-cart-sauce-labs-bolt-t-shirt";
+  private fleeceJacketAdd = "#add-to-cart-sauce-labs-fleece-jacket";
+  private onesieAdd = "#add-to-cart-sauce-labs-onesie";
+  private redTShirtAdd = '[id="add-to-cart-test.allthethings()-t-shirt-(red)"]';
 
-  private backPackRemove= '#remove-sauce-labs-backpack'
-  private bikeLightRemove= '#remove-sauce-labs-bike-light'
-  private boltTShirtRemove= '#remove-sauce-labs-bolt-t-shirt'
-  private fleeceJacketRemove= '#remove-sauce-labs-fleece-jacket'
-  private onesieRemove= '#remove-sauce-labs-onesie'
-  private redTShirtRemove= '[id="remove-test.allthethings()-t-shirt-(red)"]';
+  private backPackRemove = "#remove-sauce-labs-backpack";
+  private bikeLightRemove = "#remove-sauce-labs-bike-light";
+  private boltTShirtRemove = "#remove-sauce-labs-bolt-t-shirt";
+  private fleeceJacketRemove = "#remove-sauce-labs-fleece-jacket";
+  private onesieRemove = "#remove-sauce-labs-onesie";
+  private redTShirtRemove = '[id="remove-test.allthethings()-t-shirt-(red)"]';
 
+  private productFilterDropdown =
+    'xpath=//*[@id="header_container"]/div[2]/div/span/select';
 
   async listAllProducts() {
-    const items = await this.page.$$(
-      'xpath=//*[@id="inventory_container"]/div'
-    );
+    const products = await this.getByLocator(this.productDivSub);
+    const prodCount = await products.count();
 
-    const products = this.page.locator(".inventory_item");
+    await this.toBeGreaterThanValue(prodCount, 0);
 
-    for (let i = 0; i < (await products.count()); i++) {
-      console.log(await products.nth(i).allTextContents());
+    for (let i = 0; i < prodCount; i++) {
+      const productVal = await products.nth(i);
+      await this.toContainsTextInElement(
+        productVal.locator(".inventory_item_name"),
+        /.+/
+      );
+      await this.toContainsTextInElement(
+        productVal.locator('[data-test="inventory-item-desc"]'),
+        /.+/
+      );
+      await this.toContainsTextInElement(
+        productVal.locator('[data-test="inventory-item-price"]'),
+        /\$\d+\.\d{2}/
+      );
+      await this.toHaveCountInElement(productVal.locator("button"), 1);
+      await this.toHaveAttributeInElement(
+        productVal.locator("img"),
+        "alt",
+        /.+/
+      );
+    }
+  }
+
+  async filterProducts() {
+    const filtersVal = [
+      "Name (A to Z)",
+      "Name (Z to A)",
+      "Price (low to high)",
+      "Price (high to low)",
+    ];
+    for (const filter of filtersVal){
+      await this.selectFromDropdown(this.productFilterDropdown, filter);
+      await this.waitForTimeoutElement(2000)
     }
   }
 
@@ -37,12 +69,11 @@ export default class ProductsPage extends BasePage {
       this.boltTShirtAdd,
       this.fleeceJacketAdd,
       this.onesieAdd,
-      this.redTShirtAdd
+      this.redTShirtAdd,
     ];
 
-    for(const button of addProductsButton) {
-
-      if (button == this.onesieAdd){
+    for (const button of addProductsButton) {
+      if (button == this.onesieAdd) {
         await this.scrollPage("down", 1000);
       }
       await this.waitForSelectorVisible(button);
@@ -57,14 +88,13 @@ export default class ProductsPage extends BasePage {
       this.boltTShirtRemove,
       this.fleeceJacketRemove,
       this.onesieRemove,
-      this.redTShirtRemove
-    ]
+      this.redTShirtRemove,
+    ];
     await this.addAllProductsToCart();
     await this.scrollPage("up", 1000);
 
-    for(const button of removeProductsButton) {
-
-      if (button == this.onesieRemove){
+    for (const button of removeProductsButton) {
+      if (button == this.onesieRemove) {
         await this.scrollPage("down", 1000);
       }
       await this.waitForSelectorVisible(button);
