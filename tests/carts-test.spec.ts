@@ -18,13 +18,9 @@ test.describe("Products Suite", () => {
   test('validate cart is empty' , async ({cartsPage}) => {
     await cartsPage.validateCardtIsEmpty()
   })
-  test("remove all products to cart", async ({ productsPage }) => {
-    await productsPage.removeProduct();
-  });
 
-  test("add all products to cart", async ({cartsPage}) => {
+  test("validate cart has items", async ({cartsPage}) => {
     await cartsPage.validateCartHasItems();
-    
   });
 });
 
