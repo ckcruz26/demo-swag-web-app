@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 export default defineConfig({
   testDir: "./tests",
@@ -15,7 +18,7 @@ export default defineConfig({
   ],
 
   use: {
-    headless: true,
+    headless: false,
     viewport: { width: 1920, height: 1080 }, // ✅ works for all browsers
     trace: "on-first-retry",
     video: "on",
