@@ -18,7 +18,7 @@ export default defineConfig({
   ],
 
   use: {
-    headless: false,
+    headless: true,
     viewport: { width: 1920, height: 1080 }, // ✅ works for all browsers
     trace: "on-first-retry",
     video: "on",
