@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
-    "report-html": "npx playwright show-report"
+    "report-html": "npx playwright show-report",
+    "allure-report": "allure generate ./allure-results --clean -o ./allure-report || true",
+    "allure-open": "allure open ./allure-report"
   },
   "keywords": [],
   "author": "",
