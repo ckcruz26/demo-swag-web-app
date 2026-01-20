@@ -14,14 +14,14 @@ test.describe("Products Suite", () => {
     await productsPage.close();
   });
 
-  test('view products list' , async ({productsPage}) => {
+  test('TC-01 view products list' , async ({productsPage}) => {
     await productsPage.filterProducts()
   })
-  test("remove all products to cart", async ({ productsPage }) => {
+  test("TC-02 remove all products to cart", async ({ productsPage }) => {
     await productsPage.removeProduct();
   });
 
-  test("add all products to cart", async ({ productsPage }) => {
+  test("TC-03 add all products to cart", async ({ productsPage }) => {
     await productsPage.addAllProductsToCart();
   });
 });

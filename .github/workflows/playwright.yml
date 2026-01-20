@@ -6,7 +6,7 @@ on:
   pull_request:
 
 permissions:
-  contents: write   # needed for GitHub Pages
+  contents: write
 
 jobs:
   test:
@@ -42,13 +42,14 @@ jobs:
           name: allure-report
           path: allure-report/
 
-      - name: Deploy Allure report to GitHub Pages
+      - name: Deploy Allure report to GitHub Pages (CLEAN)
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
           publish_branch: gh-pages
+          force_orphan: true   # 🔥 IMPORTANT
 
       - name: Show Allure report link
         if: always()
