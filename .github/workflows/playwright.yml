@@ -1,4 +1,4 @@
-name: QA Automation CI/CD
+name: QA Automation CI
 
 on:
   push:
@@ -9,14 +9,10 @@ permissions:
   contents: write
 
 jobs:
-  qa:
-    name: Run Tests & Deploy Allure
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      # ----------------------
-      # 1️⃣ Checkout & Setup
-      # ----------------------
       - name: Checkout repo
         uses: actions/checkout@v4
 
@@ -31,25 +27,34 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # ----------------------
-      # 2️⃣ Run Playwright Tests
-      # ----------------------
       - name: Run Playwright tests
         run: npx playwright test
 
-      # ----------------------
-      # 3️⃣ Generate Allure report
-      # ----------------------
+      # ===============================
+      # Generate Allure Report
+      # ===============================
       - name: Generate Allure report
+        if: always()
         run: |
-          rm -rf allure-report
-          npx allure generate allure-results -o allure-report
-          echo '<!DOCTYPE html><html><head><meta http-equiv="Refresh" content="0; url=./index.html" /></head><body><p>Redirecting to latest Allure report...</p></body></html>' > allure-report/index.html
+          npx allure generate allure-results --clean -o allure-report
+          echo '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>' >> allure-report/index.html
+          echo '<meta http-equiv="Pragma" content="no-cache"/>' >> allure-report/index.html
+          echo '<meta http-equiv="Expires" content="0"/>' >> allure-report/index.html
+      # ===============================
+      # Upload Allure Report as Artifact (CLICKABLE)
+      # ===============================
+      - name: Upload Allure report as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
 
-      # ----------------------
-      # 4️⃣ Deploy to GitHub Pages
-      # ----------------------
-      - name: Deploy Allure report
+      # ===============================
+      # Deploy Allure Report to GitHub Pages
+      # ===============================
+      - name: Deploy Allure report to GitHub Pages
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +63,14 @@ jobs:
           force_orphan: true
           enable_jekyll: false
 
-      - name: Show Allure report link
+      # ===============================
+      # Add clickable links to Summary tab
+      # ===============================
+      - name: Add Allure Report link to Summary
+        if: always()
         run: |
-          echo "::notice::Click to open latest Allure Report:"
-          echo "https://ckcruz26.github.io/demo-swag-web-app/"
+          echo "## 🧪 Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 **Allure Report Artifact** → see **Artifacts** section above ⬆️" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌐 **Latest Allure Report (GitHub Pages)**:" >> $GITHUB_STEP_SUMMARY
+          echo "  https://ckcruz26.github.io/demo-swag-web-app/" >> $GITHUB_STEP_SUMMARY
