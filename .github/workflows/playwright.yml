@@ -33,25 +33,28 @@ jobs:
       - name: Generate Allure report
         if: always()
         run: |
-          npx allure generate allure-results --clean -o allure-report
+          RUN_DIR=allure-run-${{ github.run_number }}
+          npx allure generate allure-results --clean -o $RUN_DIR
+          echo "RUN_DIR=$RUN_DIR" >> $GITHUB_ENV
 
       - name: Upload Allure report artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: allure-report/
+          name: allure-report-${{ github.run_number }}
+          path: ${{ env.RUN_DIR }}
 
-      - name: Deploy Allure report to GitHub Pages (CLEAN)
+      - name: Deploy Allure report to GitHub Pages (LATEST ONLY)
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
+          publish_dir: .
           publish_branch: gh-pages
-          force_orphan: true   # 🔥 IMPORTANT
+          force_orphan: true
 
       - name: Show Allure report link
         if: always()
         run: |
-          echo "::notice::Allure Report is available here: https://ckcruz26.github.io/demo-swag-web-app/"
+          echo "::notice::Latest Allure Report:"
+          echo "https://ckcruz26.github.io/demo-swag-web-app/allure-run-${{ github.run_number }}/"
