@@ -60,12 +60,16 @@ jobs:
           name: allure-results
           path: allure-results
 
-      - name: Generate Allure report
+      - name: Generate fresh Allure report
         run: |
           rm -rf allure-report
           npx allure generate allure-results -o allure-report
 
-      - name: Upload Allure report
+      - name: Add redirect for direct access
+        run: |
+          echo '<!DOCTYPE html><html><head><meta http-equiv="Refresh" content="0; url=./index.html" /></head><body><p>Redirecting to latest Allure report...</p></body></html>' > allure-report/index.html
+
+      - name: Upload Allure report artifact
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
@@ -98,5 +102,5 @@ jobs:
 
       - name: Show Allure report link
         run: |
-          echo "::notice::Latest Allure Report:"
+          echo "::notice::Click here to open latest Allure Report:"
           echo "https://ckcruz26.github.io/demo-swag-web-app/"
