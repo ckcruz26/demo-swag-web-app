@@ -30,7 +30,10 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      - name: Generate Allure report (LATEST)
+      # ===============================
+      # Generate Allure Report
+      # ===============================
+      - name: Generate Allure report
         if: always()
         run: |
           npx allure generate allure-results --clean -o allure-report
@@ -38,7 +41,20 @@ jobs:
           echo '<meta http-equiv="Pragma" content="no-cache"/>' >> allure-report/index.html
           echo '<meta http-equiv="Expires" content="0"/>' >> allure-report/index.html
 
-      - name: Deploy Allure report to GitHub Pages (FORCE CLEAN)
+      # ===============================
+      # Upload Allure Report as Artifact (CLICKABLE)
+      # ===============================
+      - name: Upload Allure report as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      # ===============================
+      # Deploy Allure Report to GitHub Pages
+      # ===============================
+      - name: Deploy Allure report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -48,8 +64,14 @@ jobs:
           force_orphan: true
           enable_jekyll: false
 
-      - name: Show Allure report link
+      # ===============================
+      # Add clickable links to Summary tab
+      # ===============================
+      - name: Add Allure Report link to Summary
         if: always()
         run: |
-          echo "::notice::Latest Allure Report:"
-          echo "https://ckcruz26.github.io/demo-swag-web-app/"
+          echo "## 🧪 Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 **Allure Report Artifact** → see **Artifacts** section above ⬆️" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌐 **Latest Allure Report (GitHub Pages)**:" >> $GITHUB_STEP_SUMMARY
+          echo "  https://ckcruz26.github.io/demo-swag-web-app/" >> $GITHUB_STEP_SUMMARY

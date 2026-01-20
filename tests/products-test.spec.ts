@@ -7,7 +7,7 @@ test.describe("Products Suite", () => {
   });
 
   test.beforeEach(async ({ productsPage }) => {
-    await productsPage.open("https://www.saucedemo.com/inventory.html");
+    await productsPage.open(String(process.env.WEB_URL + "inventory.html"));
   });
 
   test.afterEach(async ({ productsPage }) => {

@@ -7,10 +7,8 @@ test.describe("Carts suite", () => {
     storageState: path.resolve(__dirname, "../auth/authentication.json"),
   });
 
-  
   test.beforeEach(async ({ cartsPage }) => {
-    await cartsPage.open("https://www.saucedemo.com/inventory.html");
-    
+    await cartsPage.open(String(process.env.WEB_URL + "inventory.html"));
   });
 
   test.afterEach(async ({ cartsPage }) => {
@@ -37,6 +35,10 @@ test.describe("Carts suite", () => {
 
   test("TC-05 proceed to checkout with valid data", async ({ cartsPage }) => {
     const faker = await getFaker();
-    await cartsPage.proceedToCheckoutWithValidData(faker.person.firstName(), faker.person.lastName(), faker.location.zipCode());
+    await cartsPage.proceedToCheckoutWithValidData(
+      faker.person.firstName(),
+      faker.person.lastName(),
+      faker.location.zipCode()
+    );
   });
 });

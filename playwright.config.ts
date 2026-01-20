@@ -1,7 +1,18 @@
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
+
 dotenv.config({ path: path.resolve(__dirname, ".env") });
+
+// Clean allure-results folder in CI before running tests
+if (process.env.CI) {
+  const allureDir = path.resolve(__dirname, "allure-results");
+  if (fs.existsSync(allureDir)) {
+    fs.rmSync(allureDir, { recursive: true, force: true });
+    console.log("✅ Cleared allure-results folder for CI run");
+  }
+}
 
 export default defineConfig({
   testDir: "./tests",
@@ -19,38 +30,30 @@ export default defineConfig({
 
   use: {
     headless: true,
-    viewport: { width: 1920, height: 1080 }, // ✅ works for all browsers
+    viewport: { width: 1920, height: 1080 },
     trace: "on-first-retry",
-    video: "on",
-    screenshot: "on",
+    video: process.env.CI ? "off" : "on",
+    screenshot: process.env.CI ? "off" : "on",
     ignoreHTTPSErrors: true,
   },
 
-  projects: [
-    {
-      name: "chromium",
-      use: {
-        ...devices["Desktop Chrome"],
-        // launchOptions: {
-        //   args: ["--start-maximized"], // ✅ chromium only
-        // },
-      },
-    },
+  projects: process.env.CI
+    ? [
+        // Only Chromium in CI for faster execution
+        {
+          name: "chromium",
+          use: { ...devices["Desktop Chrome"] },
+        },
+      ]
+    : [
+        // Desktop browsers
+        { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+        { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+        { name: "webkit", use: { ...devices["Desktop Safari"] } },
 
-    {
-      name: "firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        // ❌ no launch args
-      },
-    },
-
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-        // ❌ no launch args
-      },
-    },
-  ],
+        // Mobile emulation
+        // { name: "iPhone 14", use: { ...devices["iPhone 14"] } },
+        // { name: "Pixel 6", use: { ...devices["Pixel 6"] } },
+        // { name: "iPad Air", use: { ...devices["iPad Air"] } },
+      ],
 });

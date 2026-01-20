@@ -7,7 +7,7 @@ const authFile = path.join(__dirname, "../auth/authentication.json");
 setup("authenticate", async ({ page }) => {
   const loginPage = new LoginPage(page);
 
-  await loginPage.open("https://www.saucedemo.com/");
+  await loginPage.open(String(process.env.WEB_URL));
 
   await loginPage.login("standard_user", "secret_sauce");
 
