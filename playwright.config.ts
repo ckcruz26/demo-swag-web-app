@@ -18,7 +18,7 @@ export default defineConfig({
   ],
 
   use: {
-    headless: true,
+    headless: false,
     viewport: { width: 1920, height: 1080 }, // ✅ works for all browsers
     trace: "on-first-retry",
     video: "on",
@@ -37,20 +37,20 @@ export default defineConfig({
       },
     },
 
-    // {
-    //   name: "firefox",
-    //   use: {
-    //     ...devices["Desktop Firefox"],
-    //     // ❌ no launch args
-    //   },
-    // },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        // ❌ no launch args
+      },
+    },
 
-    // {
-    //   name: "webkit",
-    //   use: {
-    //     ...devices["Desktop Safari"],
-    //     // ❌ no launch args
-    //   },
-    // },
+    {
+      name: "webkit",
+      use: {
+        ...devices["Desktop Safari"],
+        // ❌ no launch args
+      },
+    },
   ],
 });
