@@ -40,10 +40,10 @@ export default defineConfig({
   projects: process.env.CI
     ? [
         // Only Chromium in CI for faster execution
-        // {
-        //   name: "chromium",
-        //   use: { ...devices["Desktop Chrome"] },
-        // },
+        {
+          name: "chromium",
+          use: { ...devices["Desktop Chrome"] },
+        },
       ]
     : [
         // Desktop browsers
