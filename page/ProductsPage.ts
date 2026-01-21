@@ -56,9 +56,9 @@ export default class ProductsPage extends BasePage {
       "Price (low to high)",
       "Price (high to low)",
     ];
-    for (const filter of filtersVal){
+    for (const filter of filtersVal) {
       await this.selectFromDropdown(this.productFilterDropdown, filter);
-      await this.waitForTimeoutElement(2000)
+      await this.waitForTimeoutElement(2000);
     }
   }
 
@@ -74,7 +74,12 @@ export default class ProductsPage extends BasePage {
 
     for (const button of addProductsButton) {
       if (button == this.onesieAdd) {
-        await this.scrollPage("down", 1000);
+        const viewport = this.page.viewportSize();
+        const scrollCount = viewport && viewport.width <= 768 ? 2 : 1;
+
+        for (let i = 0; i < scrollCount; i++) {
+          await this.scrollPage("down", 1000);
+        }
       }
       await this.waitForSelectorVisible(button);
       await this.click(button);
@@ -91,11 +96,21 @@ export default class ProductsPage extends BasePage {
       this.redTShirtRemove,
     ];
     await this.addAllProductsToCart();
-    await this.scrollPage("up", 1000);
+    const viewport = this.page.viewportSize();
+    const scrollCount = viewport && viewport.width <= 768 ? 2 : 1;
+
+    for (let i = 0; i < scrollCount; i++) {
+      await this.scrollPage("up", 1000);
+    }
 
     for (const button of removeProductsButton) {
       if (button == this.onesieRemove) {
-        await this.scrollPage("down", 1000);
+        const viewport = this.page.viewportSize();
+        const scrollCount = viewport && viewport.width <= 768 ? 2 : 1;
+
+        for (let i = 0; i < scrollCount; i++) {
+          await this.scrollPage("down", 1000);
+        }
       }
       await this.waitForSelectorVisible(button);
       await this.click(button);

@@ -40,10 +40,10 @@ export default defineConfig({
   projects: process.env.CI
     ? [
         // Only Chromium in CI for faster execution
-        {
-          name: "chromium",
-          use: { ...devices["Desktop Chrome"] },
-        },
+        // {
+        //   name: "chromium",
+        //   use: { ...devices["Desktop Chrome"] },
+        // },
       ]
     : [
         // Desktop browsers
@@ -52,8 +52,17 @@ export default defineConfig({
         { name: "webkit", use: { ...devices["Desktop Safari"] } },
 
         // Mobile emulation
-        // { name: "iPhone 14", use: { ...devices["iPhone 14"] } },
-        // { name: "Pixel 6", use: { ...devices["Pixel 6"] } },
-        // { name: "iPad Air", use: { ...devices["iPad Air"] } },
+        {
+          name: "Galaxy S",
+          use: { ...devices["Galaxy S9+"] },
+        },
+        {
+          name: "iPhone 15",
+          use: { ...devices["iPhone 15 Pro"] },
+        },
+        {
+          name: "iPad",
+          use: { ...devices["iPad Pro 11"] },
+        },
       ],
 });

@@ -33,32 +33,33 @@ export default abstract class BasePage {
     await this.page.waitForLoadState("networkidle");
   }
 
-  async scrollPage(
-    direction: "up" | "down" | "left" | "right",
-    distance: number = 500
-  ) {
-    let deltaX = 0;
-    let deltaY = 0;
+async scrollPage(
+  direction: "up" | "down" | "left" | "right",
+  distance: number = 500
+) {
+  let x = 0;
+  let y = 0;
 
-    switch (direction) {
-      case "up":
-        deltaY = -distance;
-        break;
-      case "down":
-        deltaY = distance;
-        break;
-      case "left":
-        deltaX = -distance;
-        break;
-      case "right":
-        deltaX = distance;
-        break;
-      default:
-        throw new Error(`Invalid scroll direction: ${direction}`);
-    }
-
-    await this.page.mouse.wheel(deltaX, deltaY);
+  switch (direction) {
+    case "up":
+      y = -distance;
+      break;
+    case "down":
+      y = distance;
+      break;
+    case "left":
+      x = -distance;
+      break;
+    case "right":
+      x = distance;
+      break;
   }
+
+  await this.page.evaluate(
+    ({ x, y }) => window.scrollBy(x, y),
+    { x, y }
+  );
+}
 
   /* =====================
      Element Actions
