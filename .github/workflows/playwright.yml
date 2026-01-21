@@ -27,6 +27,18 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      # ===============================
+      # Clean Allure results & report
+      # ===============================
+      - name: Clean Allure folders
+        if: always()
+        run: |
+          rm -rf allure-results allure-report
+          mkdir -p allure-results allure-report
+
+      # ===============================
+      # Run Playwright tests
+      # ===============================
       - name: Run Playwright tests
         run: npx playwright test
 
@@ -40,8 +52,9 @@ jobs:
           echo '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>' >> allure-report/index.html
           echo '<meta http-equiv="Pragma" content="no-cache"/>' >> allure-report/index.html
           echo '<meta http-equiv="Expires" content="0"/>' >> allure-report/index.html
+
       # ===============================
-      # Upload Allure Report as Artifact (CLICKABLE)
+      # Upload Allure Report as Artifact
       # ===============================
       - name: Upload Allure report as Artifact
         if: always()
@@ -61,6 +74,7 @@ jobs:
           publish_dir: ./allure-report
           publish_branch: gh-pages
           force_orphan: true
+          commit_message: "Deploy fresh Allure report - ${{ github.sha }}"
           enable_jekyll: false
 
       # ===============================
@@ -73,4 +87,4 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 **Allure Report Artifact** → see **Artifacts** section above ⬆️" >> $GITHUB_STEP_SUMMARY
           echo "- 🌐 **Latest Allure Report (GitHub Pages)**:" >> $GITHUB_STEP_SUMMARY
-          echo "  https://ckcruz26.github.io/demo-swag-web-app/" >> $GITHUB_STEP_SUMMARY
+          echo "  https://ckcruz26.github.io/demo-swag-web-app/?v=${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
