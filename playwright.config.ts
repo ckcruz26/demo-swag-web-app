@@ -37,15 +37,7 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
   },
 
-  projects: process.env.CI
-    ? [
-        // Only Chromium in CI for faster execution
-        {
-          name: "chromium",
-          use: { ...devices["Desktop Chrome"] },
-        },
-      ]
-    : [
+  projects :[
         // Desktop browsers
         { name: "chromium", use: { ...devices["Desktop Chrome"] } },
         { name: "firefox", use: { ...devices["Desktop Firefox"] } },
