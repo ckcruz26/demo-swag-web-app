@@ -28,17 +28,27 @@ jobs:
         run: npx playwright install --with-deps
 
       # ===============================
+      # Clean Allure folders (IMPORTANT)
+      # ===============================
+      - name: Clean Allure folders
+        run: |
+          rm -rf allure-results allure-report
+          mkdir -p allure-results allure-report
+
+      # ===============================
       # Run Playwright tests
       # ===============================
       - name: Run Playwright tests
         run: npm run test
 
       # ===============================
-      # Generate Allure Report
+      # Generate Allure Report (fresh)
       # ===============================
       - name: Generate Allure report
         if: always()
-        run: npm run allure-report
+        run: |
+          rm -rf allure-results/history
+          npm run allure-report
 
       # ===============================
       # Upload Allure Report as Artifact
