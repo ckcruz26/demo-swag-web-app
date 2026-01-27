@@ -28,7 +28,7 @@ jobs:
         run: npx playwright install --with-deps
 
       # ===============================
-      # Clean Allure results & report
+      # Clean Allure folders (before test run)
       # ===============================
       - name: Clean Allure folders
         if: always()
@@ -64,7 +64,7 @@ jobs:
           path: allure-report
 
       # ===============================
-      # Deploy Allure Report to GitHub Pages
+      # Deploy Allure Report to GitHub Pages (per run folder, keep history)
       # ===============================
       - name: Deploy Allure report to GitHub Pages
         if: always()
@@ -73,8 +73,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
           publish_branch: gh-pages
-          force_orphan: true
-          commit_message: "Deploy fresh Allure report - ${{ github.sha }}"
+          destination_dir: run-${{ github.run_number }}   # ✅ store each run in a separate folder
+          force_orphan: false                             # ✅ keep previous reports
+          commit_message: "Deploy Allure report - run #${{ github.run_number }}"
           enable_jekyll: false
 
       # ===============================
@@ -87,4 +88,4 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 **Allure Report Artifact** → see **Artifacts** section above ⬆️" >> $GITHUB_STEP_SUMMARY
           echo "- 🌐 **Latest Allure Report (GitHub Pages)**:" >> $GITHUB_STEP_SUMMARY
-          echo "  https://ckcruz26.github.io/demo-swag-web-app/?v=${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "  https://ckcruz26.github.io/demo-swag-web-app/run-${{ github.run_number }}/index.html" >> $GITHUB_STEP_SUMMARY
