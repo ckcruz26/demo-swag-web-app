@@ -6,20 +6,20 @@ import fs from "fs";
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 // Clean allure-results folder in CI before running tests
-if (process.env.CI) {
-  const allureDir = path.resolve(__dirname, "allure-results");
-  if (fs.existsSync(allureDir)) {
-    fs.rmSync(allureDir, { recursive: true, force: true });
-    console.log("✅ Cleared allure-results folder for CI run");
-  }
-}
+// if (process.env.CI) {
+//   const allureDir = path.resolve(__dirname, "allure-results");
+//   if (fs.existsSync(allureDir)) {
+//     fs.rmSync(allureDir, { recursive: true, force: true });
+//     console.log("✅ Cleared allure-results folder for CI run");
+//   }
+// }
 
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 3 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 4 : undefined,
 
   reporter: [
     ["dot"],
