@@ -8,7 +8,7 @@
       "expires": -1,
       "httpOnly": false,
       "secure": false,
-      "sameSite": "Lax"
+      "sameSite": "None"
     }
   ],
   "origins": [
@@ -16,12 +16,12 @@
       "origin": "https://www.saucedemo.com",
       "localStorage": [
         {
-          "name": "backtrace-guid",
-          "value": "a6e18941-54a6-4560-9490-adf8acc60495"
+          "name": "backtrace-last-active",
+          "value": "1769505350781"
         },
         {
-          "name": "backtrace-last-active",
-          "value": "1768894641389"
+          "name": "backtrace-guid",
+          "value": "8ae83c80-3741-4baa-a0dd-75869b081b65"
         }
       ]
     }
