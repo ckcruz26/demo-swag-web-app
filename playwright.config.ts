@@ -1,18 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import path from "path";
-import fs from "fs";
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
-
-// Clean allure-results folder in CI before running tests
-// if (process.env.CI) {
-//   const allureDir = path.resolve(__dirname, "allure-results");
-//   if (fs.existsSync(allureDir)) {
-//     fs.rmSync(allureDir, { recursive: true, force: true });
-//     console.log("✅ Cleared allure-results folder for CI run");
-//   }
-// }
 
 export default defineConfig({
   testDir: "./tests",
