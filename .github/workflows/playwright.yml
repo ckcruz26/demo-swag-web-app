@@ -28,7 +28,7 @@ jobs:
         run: npx playwright install --with-deps
 
       # ===============================
-      # Clean Allure folders (before test run)
+      # Clean Allure folders (once before tests)
       # ===============================
       - name: Clean Allure folders
         if: always()
@@ -43,12 +43,14 @@ jobs:
         run: npx playwright test
 
       # ===============================
-      # Generate Allure Report
+      # Generate Allure Report (merge all device results)
       # ===============================
       - name: Generate Allure report
         if: always()
         run: |
+          # merge results and generate
           npx allure generate allure-results --clean -o allure-report
+          # prevent browser caching
           echo '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>' >> allure-report/index.html
           echo '<meta http-equiv="Pragma" content="no-cache"/>' >> allure-report/index.html
           echo '<meta http-equiv="Expires" content="0"/>' >> allure-report/index.html
@@ -64,7 +66,7 @@ jobs:
           path: allure-report
 
       # ===============================
-      # Deploy Allure Report to GitHub Pages (per run folder, keep history)
+      # Deploy Allure Report to GitHub Pages
       # ===============================
       - name: Deploy Allure report to GitHub Pages
         if: always()
@@ -73,9 +75,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
           publish_branch: gh-pages
-          destination_dir: run-${{ github.run_number }}   # ✅ store each run in a separate folder
-          force_orphan: false                             # ✅ keep previous reports
-          commit_message: "Deploy Allure report - run #${{ github.run_number }}"
+          force_orphan: true        # wipe old reports, keep single report
+          commit_message: "Deploy fresh Allure report - ${{ github.sha }}"
           enable_jekyll: false
 
       # ===============================
@@ -88,4 +89,4 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 **Allure Report Artifact** → see **Artifacts** section above ⬆️" >> $GITHUB_STEP_SUMMARY
           echo "- 🌐 **Latest Allure Report (GitHub Pages)**:" >> $GITHUB_STEP_SUMMARY
-          echo "  https://ckcruz26.github.io/demo-swag-web-app/run-${{ github.run_number }}/index.html" >> $GITHUB_STEP_SUMMARY
+          echo "  https://ckcruz26.github.io/demo-swag-web-app/index.html" >> $GITHUB_STEP_SUMMARY
