@@ -14,7 +14,11 @@ export default defineConfig({
   reporter: [
     ["dot"],
     ["list"],
-    ["allure-playwright"],
+      ["allure-playwright", {
+    outputFolder: "allure-results",
+    detail: true,
+    suiteTitle: true
+  }],
     ["html", { outputFolder: "./playwright-report", open: "never" }],
   ],
 
