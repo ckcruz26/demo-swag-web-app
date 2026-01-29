@@ -2,7 +2,7 @@ import { test as setup, expect } from "@playwright/test";
 import path from "path";
 import LoginPage from "../page/LoginPage";
 
-const authFile = path.join(__dirname, "../auth/authentication.json");
+const authFile = path.join(__dirname, "../auth/authenticationDummy.json");
 
 setup("authenticate", async ({ page }) => {
   const loginPage = new LoginPage(page);
