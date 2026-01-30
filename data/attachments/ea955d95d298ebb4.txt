@@ -1,1 +1,0 @@
-Auth saved for firefox at /home/runner/work/demo-swag-web-app/demo-swag-web-app/auth/auth-firefox.json
