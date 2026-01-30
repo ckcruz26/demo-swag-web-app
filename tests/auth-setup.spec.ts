@@ -1,19 +1,29 @@
-import { test as setup, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import path from "path";
 import LoginPage from "../page/LoginPage";
 
-const authFile = path.join(__dirname, "../auth/authenticationDummy.json");
-
-setup("authenticate", async ({ page }) => {
+test("authenticate per browser", async ({ page }, testInfo) => {
+  const authFile = path.join(__dirname, `../auth/auth-${testInfo.project.name}.json`);
   const loginPage = new LoginPage(page);
 
-  await loginPage.open(String(process.env.WEB_URL));
-
+  // Login
+  await loginPage.open(process.env.WEB_URL!);
   await loginPage.login("standard_user", "secret_sauce");
 
   await page.waitForURL("**/inventory.html");
-
   await expect(page.locator(".inventory_list")).toBeVisible();
 
-  await page.context().storageState({ path: authFile });
+  const context = page.context();
+
+  // Only modify expires
+  const cookies = await context.cookies();
+  const updatedCookies = cookies.map(cookie => ({ ...cookie, expires: -1 }));
+  await context.clearCookies();
+  await context.addCookies(updatedCookies);
+
+  // Save auth with modified cookies
+  await context.storageState({ path: authFile });
+  console.log(`Auth saved for ${testInfo.project.name} at ${authFile}`);
+
+  await page.close();
 });

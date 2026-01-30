@@ -4,6 +4,8 @@ import path from "path";
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
+const authFolder = path.resolve(__dirname, "auth"); // inside project folder
+
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
@@ -31,24 +33,14 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
   },
 
-  projects :[
-        // Desktop browsers
-        { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-        { name: "firefox", use: { ...devices["Desktop Firefox"] } },
-        { name: "webkit", use: { ...devices["Desktop Safari"] } },
+  projects: [
+  { name: "chromium", use: { ...devices["Desktop Chrome"], storageState: path.join(authFolder, "auth-chromium.json") } },
+  { name: "firefox", use: { ...devices["Desktop Firefox"], storageState: path.join(authFolder, "auth-firefox.json") } },
+  { name: "webkit", use: { ...devices["Desktop Safari"], storageState: path.join(authFolder, "auth-webkit.json") } },
 
-        // Mobile emulation
-        {
-          name: "Galaxy S",
-          use: { ...devices["Galaxy S9+"] },
-        },
-        {
-          name: "iPhone 15",
-          use: { ...devices["iPhone 15 Pro"] },
-        },
-        {
-          name: "iPad",
-          use: { ...devices["iPad Pro 11"] },
-        },
-      ],
+  // Mobile: reuse desktop auth
+  { name: "Galaxy S", use: { ...devices["Galaxy S9+"], storageState: path.join(authFolder, "auth-Galaxy S.json") } },
+  { name: "iPhone 15", use: { ...devices["iPhone 15 Pro"], storageState: path.join(authFolder, "auth-iPhone 15.json") } },
+  { name: "iPad", use: { ...devices["iPad Pro 11"], storageState: path.join(authFolder, "auth-iPad.json") } },
+]
 });

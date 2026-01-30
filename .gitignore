@@ -9,4 +9,5 @@ test-results.json
 /allure-report/
 /allure-results/
 playwright-report.zip
-/auth/authenticationDummy.json
+/page/GooglePage.ts
+/tests/test-*.spec.ts

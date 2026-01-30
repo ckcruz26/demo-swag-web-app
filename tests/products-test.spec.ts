@@ -2,10 +2,7 @@ import path from "path";
 import { test } from "../fixtures/SwagFixtures";
 
 test.describe("Products Suite", () => {
-  test.use({
-    storageState: path.resolve(__dirname, "../auth/authentication.json"),
-  });
-
+ 
   test.beforeEach(async ({ productsPage }) => {
     await productsPage.open(String(process.env.WEB_URL + "inventory.html"));
   });

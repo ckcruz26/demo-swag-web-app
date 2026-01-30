@@ -3,10 +3,6 @@ import { test } from "../fixtures/SwagFixtures";
 import { getFaker } from "../utils/FakerExt";
 
 test.describe("Carts suite", () => {
-  test.use({
-    storageState: path.resolve(__dirname, "../auth/authentication.json"),
-  });
-
   test.beforeEach(async ({ cartsPage }) => {
     await cartsPage.open(String(process.env.WEB_URL + "inventory.html"));
   });
@@ -15,7 +11,7 @@ test.describe("Carts suite", () => {
     await cartsPage.close();
   });
 
-  test("TC-01 validate cart is empty", async ({ cartsPage }) => {
+  test.only("TC-01 validate cart is empty", async ({ cartsPage }) => {
     await cartsPage.validateCardtIsEmpty();
   });
 

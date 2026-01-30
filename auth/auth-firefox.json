@@ -16,12 +16,12 @@
       "origin": "https://www.saucedemo.com",
       "localStorage": [
         {
-          "name": "backtrace-last-active",
-          "value": "1769619799965"
+          "name": "backtrace-guid",
+          "value": "64a7ada7-9bbf-4f7b-a42b-a159ee1a7b79"
         },
         {
-          "name": "backtrace-guid",
-          "value": "d4a45f0c-5e72-4e5a-8235-1d74e1eccb21"
+          "name": "backtrace-last-active",
+          "value": "1769753704280"
         }
       ]
     }

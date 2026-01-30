@@ -1,6 +1,11 @@
 import { test } from "../fixtures/SwagFixtures";
 
 test.describe("Login Suite", () => {
+  
+   test.use({
+    storageState: undefined,
+  });
+  
   test.beforeEach(async ({ loginPage }) => {
     await loginPage.open(String(process.env.WEB_URL));
   });
