@@ -8,7 +8,7 @@ test("authenticate per browser", async ({ page }, testInfo) => {
 
   // Login
   await loginPage.open(process.env.WEB_URL!);
-  await loginPage.login("standard_user", "secret_sauce");
+  await loginPage.login(String(process.env.STANDARD_USER), String(process.env.PASSWORD));
 
   await page.waitForURL("**/inventory.html");
   await expect(page.locator(".inventory_list")).toBeVisible();

@@ -11,3 +11,4 @@ test-results.json
 playwright-report.zip
 /page/GooglePage.ts
 /tests/test-*.spec.ts
+.env
