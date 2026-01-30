@@ -11,7 +11,7 @@ test.describe("Carts suite", () => {
     await cartsPage.close();
   });
 
-  test.only("TC-01 validate cart is empty", async ({ cartsPage }) => {
+  test("TC-01 validate cart is empty", async ({ cartsPage }) => {
     await cartsPage.validateCardtIsEmpty();
   });
 
