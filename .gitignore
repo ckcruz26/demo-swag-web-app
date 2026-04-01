@@ -12,3 +12,4 @@ playwright-report.zip
 /page/GooglePage.ts
 /tests/test-*.spec.ts
 .env
+jenkins.bkp.txt

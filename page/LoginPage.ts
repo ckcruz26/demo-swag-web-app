@@ -1,13 +1,18 @@
+import { Page } from "@playwright/test";
 import BasePage from "../base/Base";
-
+import NavigationBar from "../components/NavigationBar";
 
 export default class LoginPage extends BasePage {
+  private nav: NavigationBar;
   private username = '#user-name';
   private password = '#password';
   private loginBtn = '#login-button';
-  private errorMsg = '//*[@id="login_button_container"]/div/form/div[3]/h3'
-  private hamburgerMenu = '#react-burger-menu-btn'
-  private logoutMenu = '#logout_sidebar_link'
+  private errorMsg = '#login_button_container h3'; // improved selector
+
+  constructor(page : Page) {
+    super(page);
+    this.nav = new NavigationBar(page);
+  }
 
   async login(username: string, password: string) {
     await this.type(this.username, username);
@@ -17,21 +22,20 @@ export default class LoginPage extends BasePage {
   }
 
   async verifyIfRedirectedToDashboard() {
-    await this.containsTitle('Swag Labs')
-    await this.containsLinkValue('inventory.html')
+    await this.containsTitle('Swag Labs');
+    await this.containsLinkValue('inventory.html');
   }
 
-  async verifyErrorMessage(errMsgVal : string) {
-    await this.expectVisible(this.errorMsg)
-    await this.toContainsTextInElement(this.errorMsg,errMsgVal)
+  async verifyErrorMessage(errMsgVal: string) {
+    await this.expectVisible(this.errorMsg);
+    await this.toContainsTextInElement(this.errorMsg, errMsgVal);
   }
 
   async verifyIfNotRedirectedToDashboard() {
-    await this.notContainsLinkValue('inventory.html')
+    await this.notContainsLinkValue('inventory.html');
   }
 
   async logoutUser() {
-    await this.click(this.hamburgerMenu)
-    await this.click(this.logoutMenu)
+    await this.nav.navigate('Logout');
   }
 }

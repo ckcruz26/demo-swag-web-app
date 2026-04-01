@@ -1,4 +1,3 @@
-import path from "path";
 import { test } from "../fixtures/SwagFixtures";
 
 test.describe("Products Suite", () => {
