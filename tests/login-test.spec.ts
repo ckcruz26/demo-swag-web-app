@@ -22,7 +22,7 @@ test.describe("Login Suite", () => {
 
   test('TC-02 Locked Out Credentials', async ({loginPage}) => {
     await loginPage.login(String(process.env.LOCKED_OUT_USERNAME),String(process.env.PASSWORD))
-    await loginPage.verifyErrorMessage('Epic sadface: Sorry, this user has been locked out.')
+    await loginPage.verifyErrorMessage('Epic sadface: Sorry, this user has been locked out!.')
     await loginPage.verifyIfNotRedirectedToDashboard()
   })
 

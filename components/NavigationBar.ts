@@ -7,7 +7,7 @@ export default class NavigationBar extends BasePage {
 
   private menuItems: Record<MenuKey, { locator: string; text: string }> = {
     AllItems: { locator: "#inventory_sidebar_link", text: "All Items" },
-    About: { locator: "#about_sidebar_link", text: "About" },
+    About: { locator: "#about_sidebar_link", text: "Abxout" },
     Logout: { locator: '[data-test="logout-sidebar-link"]', text: "Logout" },
     Reset: { locator: "#reset_sidebar_link", text: "Reset App State" },
   };
